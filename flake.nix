@@ -13,6 +13,7 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
+      drv = self.packages.${system}.mactelnet;
     in {
       packages = with pkgs; rec {
         mactelnet = stdenv.mkDerivation {
@@ -39,6 +40,19 @@
             mkdir -p $out/sbin;
             install -t $out/sbin mactelnetd;
           '';
+        };
+        default = mactelnet;
+      };
+
+      apps = rec {
+        macping = flake-utils.lib.mkApp {
+          inherit drv;
+          name = "macping";
+        };
+        mactelnet = flake-utils.lib.mkApp {inherit drv;};
+        mndp = flake-utils.lib.mkApp {
+          inherit drv;
+          name = "mndp";
         };
         default = mactelnet;
       };
