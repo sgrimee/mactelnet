@@ -19,36 +19,21 @@
           sha256 = "sha256-EKs0x5YsmmVD/2Qrqzi3/OXHQc5VSPs+aJa7cLHtAD8=";
         };
         nativeBuildInputs = [
-          autoreconfHook
-          pkg-config
-        ];
-        buildInputs = [
           autoconf
           automake
+          autoreconfHook
           gettext
           libtool
           openssl
+          pkg-config
         ];
         installPhase = ''
-          mkdir -p $out/bin;
           cd src
-          install -t $out/bin mactelnet;
+          mkdir -p $out/bin;
+          install -t $out/bin mactelnet macping mndp;
+          mkdir -p $out/sbin;
+          install -t $out/sbin mactelnetd;
         '';
       };
   };
 }
-# wget http://github.com/haakonnessjoen/MAC-Telnet/tarball/master -O mactelnet.tar.gz
-# tar zxvf mactelnet.tar.gz
-# cd haakonness*/
-# # Install dependencies
-# brew install gettext autoconf automake libtool openssl
-# export GETTEXT_PATH=$(brew --prefix gettext)
-# export OPENSSL_PATH=$(brew --prefix openssl)
-# export PATH="${GETTEXT_PATH}/bin:${OPENSSL_PATH}/bin:$PATH"
-# export LDFLAGS="-L${GETTEXT_PATH}/lib"
-# export CPPFLAGS="-I${GETTEXT_PATH}/include -I${OPENSSL_PATH}/include"
-# export CRYPTO_CFLAGS="-I${OPENSSL_PATH}/include"
-# export CRYPTO_LIBS="-L${OPENSSL_PATH}/lib ${OPENSSL_PATH}/lib/libcrypto.3.dylib"
-# ./autogen.sh
-# make all install
-
